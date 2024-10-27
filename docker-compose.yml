@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    hostname: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=glpidb
+      - MYSQL_USER=glpi_user
+      - MYSQL_PASSWORD=glpi
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  glpi:
+    image: diouxx/glpi:php7.4
+    container_name: glpi
+    hostname: glpi
+    environment:
+      - VERSION_GLPI=9.1.4
+    ports:
+      - "80:80"
+    volumes:
+      - glpi_data:/var/www/html/glpi
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data:
+  glpi_data:
