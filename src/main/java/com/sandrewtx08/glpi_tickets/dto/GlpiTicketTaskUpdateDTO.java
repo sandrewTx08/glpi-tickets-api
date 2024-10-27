@@ -1,14 +1,15 @@
 package com.sandrewtx08.glpi_tickets.dto;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
 public class GlpiTicketTaskUpdateDTO {
-    @Min(60)
+    @Min(0)
+    @Nullable
     private Integer actionTime;
 
-    @NotBlank
+    @Nullable
     private String content;
 }
