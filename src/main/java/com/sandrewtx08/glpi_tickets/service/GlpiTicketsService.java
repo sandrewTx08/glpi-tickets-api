@@ -2,13 +2,16 @@ package com.sandrewtx08.glpi_tickets.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sandrewtx08.glpi_tickets.predicate.GlpiTicketsSpecification;
 import com.sandrewtx08.glpi_tickets.projection.GlpiPendingTickets;
+import com.sandrewtx08.glpi_tickets.projection.GlpiTicketsContent;
 import com.sandrewtx08.glpi_tickets.repository.GlpiTicketsRepository;
 
 @Service
@@ -33,5 +36,10 @@ public class GlpiTicketsService {
             glpiTicket.setDateMod(LocalDateTime.now());
             glpiTicketsRepository.save(glpiTicket);
         });
+    }
+
+    @Transactional(readOnly = true)
+    public List<GlpiTicketsContent> findManyTicketsContent(Set<String> content) {
+        return glpiTicketsRepository.findManyTicketsContent(GlpiTicketsSpecification.hasContentIn(content));
     }
 }

@@ -25,8 +25,8 @@ public class GlpiTicketTaskService {
     private GlpiUsersService glpiUsersService;
 
     @Transactional(readOnly = true)
-    public List<GlpiTicketsTaskContent> findManyTicketTaskByTicketId(Pageable pageable, Integer ticketItemId) {
-        return glpiTicketTaskRepository.findManyTicketTaskByTicketId(pageable,
+    public List<GlpiTicketsTaskContent> findManyByTicketsId(Pageable pageable, Integer ticketItemId) {
+        return glpiTicketTaskRepository.findManyByTicketsId(pageable,
                 ticketItemId);
     }
 

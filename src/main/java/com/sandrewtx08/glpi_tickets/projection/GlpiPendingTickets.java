@@ -5,13 +5,9 @@ import java.time.LocalDateTime;
 public interface GlpiPendingTickets {
     Integer getId();
 
-    Integer getEntitiesId();
-
     String getName();
 
     LocalDateTime getDate();
-
-    LocalDateTime getClosedate();
 
     LocalDateTime getSolvedate();
 

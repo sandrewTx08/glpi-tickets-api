@@ -26,10 +26,10 @@ public class GlpiTicketTaskController {
     private GlpiTicketTaskService glpiTicketTaskService;
 
     @GetMapping("ticket/{ticketId}")
-    public List<GlpiTicketsTaskContent> findManyTicketTaskByTicketId(
+    public List<GlpiTicketsTaskContent> findManyByTicketsId(
             @PageableDefault(size = 10, page = 0) Pageable pageable,
             @PathVariable("ticketId") Integer ticketId) {
-        return glpiTicketTaskService.findManyTicketTaskByTicketId(pageable, ticketId);
+        return glpiTicketTaskService.findManyByTicketsId(pageable, ticketId);
     }
 
     @PostMapping("ticket/{ticketId}")
