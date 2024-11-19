@@ -18,7 +18,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.sandrewtx08.glpi_tickets.BaseTestConfig;
 import com.sandrewtx08.glpi_tickets.dto.TicketSolveEstimation;
 import com.sandrewtx08.glpi_tickets.model.GlpiTickets;
-import com.sandrewtx08.glpi_tickets.projection.GlpiTicketsContent;
 import com.sandrewtx08.glpi_tickets.repository.GlpiTicketsRepository;
 
 @SpringBootTest
@@ -89,7 +88,7 @@ public class TicketSolveServiceTest extends BaseTestConfig {
 
     @Test
     public void testTicketResolutionService() {
-        List<GlpiTicketsContent> tickets = glpiTicketsService.findManyTicketsContent(Set.of("9", "8"));
+        List<GlpiTickets> tickets = glpiTicketsService.findManyTicketsContent(Set.of("9", "8"));
         TicketSolveEstimation ticketSolveEstimation = ticketSolveService.estimateTicketSolveTime(tickets);
         assertTrue(
                 ticketSolveEstimation.getMax().getSolvedate().isAfter(ticketSolveEstimation.getMin().getSolvedate()));

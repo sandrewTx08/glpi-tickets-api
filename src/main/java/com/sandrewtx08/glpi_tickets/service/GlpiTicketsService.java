@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sandrewtx08.glpi_tickets.predicate.GlpiTicketsSpecification;
 import com.sandrewtx08.glpi_tickets.projection.GlpiPendingTickets;
-import com.sandrewtx08.glpi_tickets.projection.GlpiTicketsContent;
+import com.sandrewtx08.glpi_tickets.model.GlpiTickets;
 import com.sandrewtx08.glpi_tickets.repository.GlpiTicketsRepository;
 
 @Service
@@ -39,7 +39,7 @@ public class GlpiTicketsService {
     }
 
     @Transactional(readOnly = true)
-    public List<GlpiTicketsContent> findManyTicketsContent(Set<String> content) {
-        return glpiTicketsRepository.findManyTicketsContent(GlpiTicketsSpecification.hasContentIn(content));
+    public List<GlpiTickets> findManyTicketsContent(Set<String> content) {
+        return glpiTicketsRepository.findAll(GlpiTicketsSpecification.hasContentIn(content));
     }
 }

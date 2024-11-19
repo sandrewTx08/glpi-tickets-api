@@ -1,6 +1,15 @@
-version: "3.8"
-
 services:
+  glpi-tickets-api:
+    build: .
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/glpidb
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password
+    depends_on:
+      - mysql
+
   mysql:
     image: mysql:8.0
     container_name: mysql

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sandrewtx08.glpi_tickets.dto.TicketSolveEstimation;
 import com.sandrewtx08.glpi_tickets.projection.GlpiPendingTickets;
-import com.sandrewtx08.glpi_tickets.projection.GlpiTicketsContent;
+import com.sandrewtx08.glpi_tickets.model.GlpiTickets;
 import com.sandrewtx08.glpi_tickets.service.GlpiTicketsService;
 import com.sandrewtx08.glpi_tickets.service.TicketSolveService;
 
@@ -35,7 +35,7 @@ public class GlpiTicketsController {
     @GetMapping("estimation")
     public TicketSolveEstimation findManyTicketsContent(
             @RequestParam Set<String> content) {
-        List<GlpiTicketsContent> tickets = glpiTicketService.findManyTicketsContent(content);
+        List<GlpiTickets> tickets = glpiTicketService.findManyTicketsContent(content);
         TicketSolveEstimation ticketSolveEstimation = ticketSolveService.estimateTicketSolveTime(tickets);
         return ticketSolveEstimation;
     }

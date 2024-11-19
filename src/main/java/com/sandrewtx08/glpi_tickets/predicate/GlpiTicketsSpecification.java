@@ -17,7 +17,9 @@ public class GlpiTicketsSpecification {
                             builder.like(root.get("content"), "%" + content + "%")))
                     .toArray(Predicate[]::new);
 
-            return builder.or(predicates);
+            return builder.and(
+                    builder.isNotNull(root.get("solvedate")),
+                    builder.or(predicates));
         };
     }
 }

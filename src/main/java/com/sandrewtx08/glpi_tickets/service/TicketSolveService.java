@@ -8,19 +8,20 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.springframework.stereotype.Service;
 
 import com.sandrewtx08.glpi_tickets.dto.TicketSolveEstimation;
-import com.sandrewtx08.glpi_tickets.projection.GlpiTicketsContent;
+import com.sandrewtx08.glpi_tickets.model.GlpiTickets;
 
 @Service
 public class TicketSolveService {
-
-    public TicketSolveEstimation estimateTicketSolveTime(List<GlpiTicketsContent> tickets) {
+    public TicketSolveEstimation estimateTicketSolveTime(List<GlpiTickets> tickets) {
         DescriptiveStatistics stats = new DescriptiveStatistics();
 
         tickets.forEach(ticket -> {
-            double resolutionTime = Duration
-                    .between(ticket.getDateCreation(), ticket.getSolvedate())
-                    .toMillis() / (1000 * 60 * 60);
-            stats.addValue(resolutionTime);
+            if (ticket.getSolvedate() != null) {
+                double resolutionTime = Duration
+                        .between(ticket.getDateCreation(), ticket.getSolvedate())
+                        .toMillis() / (1000 * 60 * 60);
+                stats.addValue(resolutionTime);
+            }
         });
 
         TicketSolveEstimation estimation = new TicketSolveEstimation();
@@ -30,24 +31,28 @@ public class TicketSolveService {
         estimation.setMedian(getClosestTicketToValue(tickets, stats.getPercentile(50)));
         estimation.setMin(getTicketForTime(tickets, stats.getMin()));
         estimation.setMax(getTicketForTime(tickets, stats.getMax()));
-        estimation.setClosestToMean(getTicketForTime(tickets, stats.getMean()));
+        estimation.setTotalTickets(tickets.size());
 
         return estimation;
     }
 
-    private GlpiTicketsContent getClosestTicketToValue(List<GlpiTicketsContent> tickets, double value) {
+    private GlpiTickets getClosestTicketToValue(List<GlpiTickets> tickets, double value) {
         return tickets.stream()
                 .min(Comparator.comparingDouble(ticket -> Math.abs(getResolutionTime(ticket) - value)))
                 .orElse(null);
     }
 
-    private double getResolutionTime(GlpiTicketsContent ticket) {
+    private double getResolutionTime(GlpiTickets ticket) {
+        if (ticket.getSolvedate() == null) {
+            return 0.0;
+        }
+
         return Duration
                 .between(ticket.getDateCreation(), ticket.getSolvedate())
                 .toMillis() / (1000 * 60 * 60);
     }
 
-    private GlpiTicketsContent getTicketForTime(List<GlpiTicketsContent> tickets, double time) {
+    private GlpiTickets getTicketForTime(List<GlpiTickets> tickets, double time) {
         return tickets.stream()
                 .filter(ticket -> getResolutionTime(ticket) == time)
                 .findFirst()
