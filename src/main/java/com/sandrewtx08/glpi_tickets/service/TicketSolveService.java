@@ -12,14 +12,16 @@ import com.sandrewtx08.glpi_tickets.model.GlpiTickets;
 
 @Service
 public class TicketSolveService {
+    private static final int MILHOUR = 1000 * 60 * 60;
+
     public TicketSolveEstimation estimateTicketSolveTime(List<GlpiTickets> tickets) {
         DescriptiveStatistics stats = new DescriptiveStatistics();
 
         tickets.forEach(ticket -> {
-            if (ticket.getSolvedate() != null) {
+            if (ticket.getDateCreation() != null && ticket.getSolvedate() != null) {
                 double resolutionTime = Duration
                         .between(ticket.getDateCreation(), ticket.getSolvedate())
-                        .toMillis() / (1000 * 60 * 60);
+                        .toMillis() / MILHOUR;
                 stats.addValue(resolutionTime);
             }
         });
@@ -43,13 +45,13 @@ public class TicketSolveService {
     }
 
     private double getResolutionTime(GlpiTickets ticket) {
-        if (ticket.getSolvedate() == null) {
-            return 0.0;
+        if (ticket.getDateCreation() == null || ticket.getSolvedate() == null) {
+            return 0;
         }
 
         return Duration
                 .between(ticket.getDateCreation(), ticket.getSolvedate())
-                .toMillis() / (1000 * 60 * 60);
+                .toMillis() / MILHOUR;
     }
 
     private GlpiTickets getTicketForTime(List<GlpiTickets> tickets, double time) {
