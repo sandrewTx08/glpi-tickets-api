@@ -29,7 +29,6 @@ public class TicketSolveService {
         TicketSolveEstimation estimation = new TicketSolveEstimation();
 
         estimation.setMean(getClosestTicketToValue(tickets, stats.getMean()));
-        estimation.setStdDev(getClosestTicketToValue(tickets, stats.getStandardDeviation()));
         estimation.setMedian(getClosestTicketToValue(tickets, stats.getPercentile(50)));
         estimation.setMin(getTicketForTime(tickets, stats.getMin()));
         estimation.setMax(getTicketForTime(tickets, stats.getMax()));

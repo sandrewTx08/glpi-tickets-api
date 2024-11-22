@@ -7,7 +7,6 @@ import lombok.Data;
 @Data
 public class TicketSolveEstimation {
     private GlpiTickets mean;
-    private GlpiTickets stdDev;
     private GlpiTickets median;
     private GlpiTickets min;
     private GlpiTickets max;
